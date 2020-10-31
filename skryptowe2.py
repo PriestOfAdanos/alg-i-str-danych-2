@@ -20,6 +20,7 @@ class Stack(object):
 
     def pop(self):
         if self.top>=0:
+            self.stack[self.top]=0
             self.top-=1
             return self.stack[self.top+1]
     
@@ -74,13 +75,15 @@ class PrirityQueue(Queue):
     def dequeue(self):
         if self.head==self.size and self.tail!=0:
             self.head=0
+            print('huj')
         elif self.head==self.tail:
             print('Empty')
         else:
             self.head+=1
+            print(self.head)
         current = self.head
         for index, priority in enumerate(self.que):
-            if x<priority:
+            if self.que[current]<priority:
                 current=index
         x = self.que[current]
         self.que[current] = self.que[self.head-1]
@@ -143,7 +146,8 @@ class SingleLinkList:
         elif index == 0:
             self.head = self.head.next
         else:
-            for i in range(1,index+1):
+            cell = self.head
+            for i in range(index+1):
                 if i+1==index:# and cell.next.next is not None:
                     cell.next = cell.next.next
                 cell = cell.next
@@ -157,7 +161,9 @@ class SingleLinkList:
                     print("")
             cell = cell.next
 
-class DoubelLinkList:
+
+
+class DoubleLinkList:
     def __init__(self):
         self.head = None
         self.tail = None
@@ -182,7 +188,7 @@ class DoubelLinkList:
             cell.next = self.head
             self.head = cell
         else:
-            cell = self.head
+            # cell = self.head
             for i in range(index):
                 if i+1==index:
                     cl = Cell(data)
@@ -209,21 +215,34 @@ class DoubelLinkList:
         else:
             for i in range(index+1):
                 if i==index:
-                    print('l')
-                    cell.next.previous=cell.previous
-                    cell.previous.next =cell.next
+                    if i==index:
+                        if cell==self.head:
+                            self.head = cell.next
+                            cell.next.previous=cell.previous
+                            cell.previous=None
+
+                        elif cell==self.tail:
+                            self.tail = cell.previous
+                            cell.next=None
+                            cell.previous.next =cell.next
+                        else:
+                            cell.next.previous=cell.previous
+                            cell.previous.next =cell.next
                 cell = cell.next
 
                 
 
     def print_out(self):
         cell = self.head
-        while cell is not None:
+        while cell is not self.tail:
             if cell.data is not None:
                 print(cell.data, end=',')
-                if cell.next is None:
-                    print("")
+                
             cell = cell.next
+        print(self.tail.data)
+
+     
+               
             
 class CycleList(DoubleLinkList):
 
@@ -244,9 +263,8 @@ class CycleList(DoubleLinkList):
         while cell != self.tail:
             if cell.data is not None:
                 print(cell.data, end=',')
-                if cell.next is None:
-                    print("")
             cell = cell.next
+        print(self.tail.data)
 
 
 class GuardedList(DoubleLinkList):
@@ -258,6 +276,7 @@ class GuardedList(DoubleLinkList):
         self.guard.previous = self.tail    
 
     def append(self, data):
+        cell = Cell(data)
         cell = Cell(data)
         if self.head is None:
             self.head = cell 
@@ -276,10 +295,10 @@ class GuardedList(DoubleLinkList):
         cell = self.head
         while cell != self.tail:
             if cell.data is not None:
-                print(cell.data, end=',')
-                if cell.next == self.guard.previous:
-                    print("")
+                print(cell.data, end=',')    
             cell = cell.next
+        print(self.tail.data)
+
     def insert(self,data,index=0):
         cell = self.head
         if index<0:
@@ -288,9 +307,7 @@ class GuardedList(DoubleLinkList):
             cell = Cell(data)
             cell.next = self.head
             self.head = cell
-            self.guard.next = self.head
         else:
-            cell = self.head
             for i in range(index):
                 if i+1==index:
                     cl = Cell(data)
@@ -319,7 +336,114 @@ class GuardedList(DoubleLinkList):
         else:
             for i in range(index+1):
                 if i==index:
-                    print('l')
-                    cell.next.previous=cell.previous
-                    cell.previous.next =cell.next
+                    if cell==self.head:
+                        self.head = cell.next
+                        self.guard.next = cell.next
+                        cell.next.previous=cell.previous
+                        cell.previous=None
+
+                    elif cell==self.tail:
+                        self.tail = cell.previous
+                        self.guard.previous = cell.previous
+                        cell.next=None
+                        cell.previous.next =cell.next
+                    else:
+                        cell.next.previous=cell.previous
+                        cell.previous.next =cell.next
                 cell = cell.next
+ls = GuardedList()
+ls.append(1)
+ls.append(2)
+ls.append(3)
+ls.append(4)
+ls.insert(5,2)
+ls.find(2)
+ls.print_out()
+ls = DoubleLinkList()
+ls.append(1)
+ls.append(2)
+ls.append(3)
+ls.append(4)
+ls.insert(5,2)
+ls.remove(1)
+ls.print_out()
+ls = SingleLinkList()
+ls.append(1)
+ls.append(2)
+ls.append(3)
+ls.append(4)
+ls.insert(5,2)
+ls.remove(1)
+
+ls.print_out()
+ls = PrirityQueue(10)
+ls.equeue(1)
+ls.equeue(1)
+
+ls.equeue(1)
+ls.equeue(1)
+ls.equeue(13)
+ls.equeue(13)
+ls.equeue(13)
+ls.equeue(13)
+ls.equeue(12)
+print(ls.que)
+ls.dequeue()
+ls.dequeue()
+print(ls.que)
+
+ls.dequeue()
+ls.dequeue()
+ls.dequeue()
+
+print(ls.que)
+
+print(ls.find(12))
+print(ls.find(13))
+ls = Queue(10)
+ls.equeue(1)
+ls.equeue(1)
+
+ls.equeue(1)
+ls.equeue(1)
+ls.equeue(13)
+ls.equeue(13)
+ls.equeue(13)
+ls.equeue(13)
+ls.equeue(12)
+print(ls.que)
+ls.dequeue()
+ls.dequeue()
+print(ls.que)
+
+ls.dequeue()
+ls.dequeue()
+ls.dequeue()
+
+print(ls.que)
+
+print(ls.find(12))
+print(ls.find(13))
+ls = Stack(10)
+ls.push(1)
+ls.push(1)
+
+ls.push(1)
+ls.push(1)
+ls.push(1)
+ls.push(1)
+ls.push(20)
+print(ls.stack)
+ls.pop()
+ls.pop()
+
+print(ls.stack)
+ls.pop()
+ls.pop()
+ls.pop()
+
+
+print(ls.stack)
+
+print(ls.find(12))
+print(ls.find(13))
