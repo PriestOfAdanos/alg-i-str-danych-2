@@ -307,6 +307,7 @@ class GuardedList(DoubleLinkList):
             cell = Cell(data)
             cell.next = self.head
             self.head = cell
+            self.guard.next = self.head
         else:
             for i in range(index):
                 if i+1==index:
