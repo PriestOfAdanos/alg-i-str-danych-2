@@ -143,7 +143,6 @@ class SingleLinkList:
         elif index == 0:
             self.head = self.head.next
         else:
-            cell = self.head
             for i in range(1,index+1):
                 if i+1==index:# and cell.next.next is not None:
                     cell.next = cell.next.next
@@ -158,75 +157,6 @@ class SingleLinkList:
                     print("")
             cell = cell.next
 
-
-
-class DoubleLinkList:
-    def __init__(self):
-        self.head = None
-        self.tail = None
-
-    def append(self, data):
-        cell = Cell(data)
-        if self.head is None:
-            self.head = cell 
-            self.tail = cell
-        else:
-            cell.previous = self.tail
-            cell.previous.next = cell
-            self.tail = cell
-        
-
-    def insert(self,data,index=0):
-        cell = self.head
-        if index<0:
-            print('Wrong index')
-        elif index == 0:
-            cell = Cell(data)
-            cell.next = self.head
-            self.head = cell
-        else:
-            cell = self.head
-            for i in range(index):
-                if i+1==index:
-                    cl = Cell(data)
-                    cl.next = cell.next
-                    cl.previous = cell
-                    cell.next = cl
-                cell = cell.next
-                
-    def find(self, query):
-        cell = self.head
-        index = 0
-        while cell is not None:
-            if cell.data == query:
-                return index
-            index+=1
-            cell = cell.next
-                    
-    def remove(self, index):
-        cell = self.head
-        if index<0:
-            print('Wrong index')
-        elif index == 0:
-            self.head = self.head.next
-        else:
-            for i in range(index+1):
-                if i==index:
-                    print('l')
-                    cell.next.previous=cell.previous
-                    cell.previous.next =cell.next
-                cell = cell.next
-
-                
-
-    def print_out(self):
-        cell = self.head
-        while cell is not None:
-            if cell.data is not None:
-                print(cell.data, end=',')
-                if cell.next is None:
-                    print("")
-            cell = cell.nextclass 
 class DoubelLinkList:
     def __init__(self):
         self.head = None
@@ -328,7 +258,6 @@ class GuardedList(DoubleLinkList):
         self.guard.previous = self.tail    
 
     def append(self, data):
-        cell = Cell(data)
         cell = Cell(data)
         if self.head is None:
             self.head = cell 
