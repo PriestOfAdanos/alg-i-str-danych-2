@@ -288,6 +288,7 @@ class GuardedList(DoubleLinkList):
             cell = Cell(data)
             cell.next = self.head
             self.head = cell
+            self.guard.next = self.head
         else:
             cell = self.head
             for i in range(index):
